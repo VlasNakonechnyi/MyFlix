@@ -1,22 +1,22 @@
 package com.example.myflix
 
+import android.os.Binder
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModelProvider
-import com.example.myflix.service.MovieService
-import com.example.myflix.ui.theme.MyFlixTheme
+import com.example.myflix.databinding.ActivityMainBinding
 
 class MainActivity : ComponentActivity() {
+    private lateinit var searchButton: Button
+    private lateinit var searchEditText: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MovieViewModel()
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        searchButton = binding.buttonSearch
+        searchEditText = binding.editTextMovieTitle
     }
+
+
 }

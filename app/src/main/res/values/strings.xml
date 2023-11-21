@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyFlix</string>
+    <string name="movie_title">Movie title</string>
+    <string name="search">Search</string>
 </resources>
