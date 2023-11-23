@@ -1,22 +1,34 @@
 package com.example.myflix.service
 
 import android.util.Log
+import com.example.SearchedMovie
 import com.example.myflix.api.MovieApi
 import com.example.myflix.api.RetrofitClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import java.io.IOException
-
-class MovieService {
+interface MovieServiceCallback {
+    fun onMoviesLoaded(movies: List<SearchedMovie>)
+}
+class MovieService(private val callback: MovieServiceCallback) {
+    var movies: List<SearchedMovie>? = null
     private val retrofit = RetrofitClient.getClient()
     private val movieApi = retrofit.create(MovieApi::class.java)
-    suspend fun searchMovies(searchTitle: String) {
+
+
+    private suspend fun searchMovies(searchTitle: String) {
         try {
             val response = movieApi.getMoviesBySearch(searchTitle = searchTitle)
             Log.d("API_RESPONSE", response.toString())
             if (response.isSuccessful) {
-                val movies = response.body()
+                movies = response.body()?.search
                 movies?.let {
                     // Handle the list of movies
+                    callback.onMoviesLoaded(it)
                     Log.d("MOVIE_SERVICE", it.toString())
                 } ?: Log.d("MOVIE_SERVICE", "Response body is null")
 
@@ -33,6 +45,30 @@ class MovieService {
             // Handle network issues or general I/O errors
             Log.e("MOVIE_SERVICE", "IOException: ${e.message}")
         }
+    }
+    fun loadData(title: String) = runBlocking {
+
+        coroutineScope {
+
+            launch(Dispatchers.IO) {
+                    println("[${Thread.currentThread().name}] One")
+                    try {
+                        searchMovies(title)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+            }
+            launch(Dispatchers.IO) {
+                println("[${Thread.currentThread().name}] Two")
+                try {
+                    searchMovies(title)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+        }
+        println("[${Thread.currentThread().name}] Done!")
     }
 }
 
