@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.myflix.databinding.ActivityMainBinding
+import com.example.myflix.utils.TextChangeListener
 
 class MainActivity :AppCompatActivity() {
 
@@ -19,5 +20,7 @@ class MainActivity :AppCompatActivity() {
         )
 
     }
+
+
 
 }
