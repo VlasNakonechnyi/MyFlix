@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/moviesFragment3">
+    <fragment
+        android:id="@+id/moviesFragment3"
+        android:name="com.example.myflix.MoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies" >
+        <action
+            android:id="@+id/action_moviesFragment3_to_moviesRecyclerViewFragment"
+            app:destination="@id/moviesRecyclerViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/moviesRecyclerViewFragment"
+        android:name="com.example.myflix.MoviesRecyclerViewFragment"
+        android:label="fragment_movies_recycler_view"
+        tools:layout="@layout/fragment_movies_recycler_view" />
+</navigation>
