@@ -1,6 +1,8 @@
 package com.example.myflix.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +11,32 @@ import com.example.SearchedMovie
 import com.example.myflix.R
 import com.example.myflix.databinding.MovieInfoBinding
 import com.example.myflix.service.MovieService
+import com.example.myflix.utils.RecyclerViewClickListener
 import com.squareup.picasso.Picasso
 
-class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(clickListener: RecyclerViewClickListener): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     var movieInfoList: List<SearchedMovie> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
-    inner class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+
+    val itemListener = clickListener
+
+    inner class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        init {
+            itemView.setOnClickListener(this)
+        }
         val binding = MovieInfoBinding.bind(itemView)
         val imageViewMoviePoster = binding.imageViewMoviePoster
         val textViewTitle = binding.textViewMovieTitle
         val textViewYear = binding.textViewMovieYear
-
+        override fun onClick(v: View?) {
+            Log.d("ON_CLICK", "WORKED")
+            v?.let {
+                itemListener.recyclerViewItemClicked(it, layoutPosition)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
