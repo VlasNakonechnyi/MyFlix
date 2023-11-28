@@ -17,5 +17,14 @@
         android:id="@+id/moviesRecyclerViewFragment"
         android:name="com.example.myflix.MoviesRecyclerViewFragment"
         android:label="fragment_movies_recycler_view"
-        tools:layout="@layout/fragment_movies_recycler_view" />
+        tools:layout="@layout/fragment_movies_recycler_view" >
+        <action
+            android:id="@+id/action_moviesRecyclerViewFragment_to_detailsMovieInfoFragment"
+            app:destination="@id/detailsMovieInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsMovieInfoFragment"
+        android:name="com.example.myflix.DetailsMovieInfoFragment"
+        android:label="fragment_details_movie_info"
+        tools:layout="@layout/fragment_details_movie_info" />
 </navigation>

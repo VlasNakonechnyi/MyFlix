@@ -1,24 +1,27 @@
 package com.example.myflix.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.SearchedMovie
 import com.example.myflix.R
 import com.example.myflix.databinding.MovieInfoBinding
-import com.example.myflix.service.MovieService
+import com.example.myflix.utils.DiffUtilCallback
 import com.example.myflix.utils.RecyclerViewClickListener
 import com.squareup.picasso.Picasso
 
 class MovieAdapter(clickListener: RecyclerViewClickListener): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
-    var movieInfoList: List<SearchedMovie> = listOf()
+    var movieInfoList: List<SearchedMovie> = mutableListOf()
         set(value) {
-            field = value
-            notifyDataSetChanged()
+            val diffUtilCallback = DiffUtilCallback(movieInfoList, value)
+            val diff = DiffUtil.calculateDiff(diffUtilCallback)
+            (movieInfoList as MutableList<SearchedMovie>).clear()
+            (movieInfoList as MutableList<SearchedMovie>).addAll(value)
+            diff.dispatchUpdatesTo(this)
         }
 
     val itemListener = clickListener
@@ -27,7 +30,7 @@ class MovieAdapter(clickListener: RecyclerViewClickListener): RecyclerView.Adapt
         init {
             itemView.setOnClickListener(this)
         }
-        val binding = MovieInfoBinding.bind(itemView)
+        private val binding = MovieInfoBinding.bind(itemView)
         val imageViewMoviePoster = binding.imageViewMoviePoster
         val textViewTitle = binding.textViewMovieTitle
         val textViewYear = binding.textViewMovieYear

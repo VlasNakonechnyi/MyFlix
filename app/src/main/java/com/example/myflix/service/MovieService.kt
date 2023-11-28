@@ -5,16 +5,19 @@ import com.example.SearchedMovie
 import com.example.myflix.api.MovieApi
 import com.example.myflix.api.RetrofitClient
 import com.example.myflix.pojo.SearchedMovieDetails
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import java.io.IOException
 interface MovieServiceCallback {
-    fun onMoviesLoaded(movies: List<SearchedMovie>)
+    fun onMoviesLoaded(movies: List<SearchedMovie> = listOf(), searchedMovieDetails: SearchedMovieDetails? = null)
 }
 class MovieService(private val callback: MovieServiceCallback) {
+
     private var movies: List<SearchedMovie>? = null
     private var movieDetails: SearchedMovieDetails? = null;
     private val retrofit = RetrofitClient.getClient()
@@ -27,24 +30,30 @@ class MovieService(private val callback: MovieServiceCallback) {
             Log.d("API_RESPONSE", response.toString())
             if (response.isSuccessful) {
                 movies = response.body()?.search
-                movies?.let {
-                    // Handle the list of movies
-                    callback.onMoviesLoaded(it)
-                    Log.d("MOVIE_SERVICE", it.toString())
-                } ?: Log.d("MOVIE_SERVICE", "Response body is null")
+                if (movies != null) {
+
+                    callback.onMoviesLoaded(movies = movies!!)
+                } else {
+                    callback.onMoviesLoaded(movies = listOf())
+                }
+
 
             } else {
                 // Handle unsuccessful response
                 Log.e("MOVIE_SERVICE", "Error: ${response.code()}, ${response.message()}")
+                callback.onMoviesLoaded(movies = listOf())
             }
 
         } catch (e: HttpException) {
             // Handle HTTP exceptions (e.g., non-2xx status code)
             Log.e("MOVIE_SERVICE", "HTTP Exception: ${e.code()}, ${e.message()}")
+            callback.onMoviesLoaded(movies = listOf())
 
         } catch (e: IOException) {
             // Handle network issues or general I/O errors
             Log.e("MOVIE_SERVICE", "IOException: ${e.message}")
+            callback.onMoviesLoaded(movies = listOf())
+
         }
     }
     private suspend fun getMovieDetailsById(id: String) {
@@ -54,6 +63,7 @@ class MovieService(private val callback: MovieServiceCallback) {
             if (response.isSuccessful) {
                 movieDetails = response.body()
                 movieDetails?.let {
+                    callback.onMoviesLoaded(searchedMovieDetails = it)
 
                     Log.d("MOVIE_SERVICE_BY_ID", it.toString())
                 } ?: Log.d("MOVIE_SERVICE_BY_ID", "Response body is null")
@@ -73,29 +83,19 @@ class MovieService(private val callback: MovieServiceCallback) {
         }
     }
     fun loadRecyclerViewOfMovies(title: String) = runBlocking {
-        coroutineScope {
-            launch(Dispatchers.IO) {
-                    println("[${Thread.currentThread().name}] One")
-                    try {
-                        searchMovies(title)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+            CoroutineScope(Dispatchers.Main).launch {
+                println("[${Thread.currentThread().name}] One")
+                searchMovies(title)
             }
-        }
         println("[${Thread.currentThread().name}] Done!")
     }
     fun loadMovieDetails(id: String) = runBlocking {
-        coroutineScope {
-            launch(Dispatchers.IO) {
+
+           CoroutineScope(Dispatchers.Main).launch {
                 println("[${Thread.currentThread().name}] One")
-                try {
-                    getMovieDetailsById(id)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                getMovieDetailsById(id)
             }
-        }
+
         println("[${Thread.currentThread().name}] Done!")
     }
 }
