@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.SearchedMovie
 import com.example.myflix.databinding.FragmentDetailsMovieInfoBinding
-import com.example.myflix.pojo.SearchedMovieDetails
+import com.example.myflix.dto.MovieDetailsDto
+import com.example.myflix.local.Movie
 import com.example.myflix.service.MovieService
 import com.example.myflix.service.MovieServiceCallback
 import com.squareup.picasso.Picasso
@@ -37,17 +37,17 @@ class DetailsMovieInfoFragment : Fragment(), MovieServiceCallback {
     }
 
     override fun onMoviesLoaded(
-        movies: List<SearchedMovie>,
-        searchedMovieDetails: SearchedMovieDetails?
+        movies: List<Movie>?,
+        movieDetailsDto: MovieDetailsDto?
     ) {
         Log.d("SECOND_CALLBACK", "SUCCESS")
-        title = searchedMovieDetails?.title.toString()
-        year = searchedMovieDetails?.year.toString()
-        length = searchedMovieDetails?.runtime.toString()
-        director = searchedMovieDetails?.director.toString()
-        posterUrl = searchedMovieDetails?.poster.toString()
-        genre = searchedMovieDetails?.genre.toString()
-        plot = searchedMovieDetails?.plot.toString()
+        title = movieDetailsDto?.title.toString()
+        year = movieDetailsDto?.year.toString()
+        length = movieDetailsDto?.runtime.toString()
+        director = movieDetailsDto?.director.toString()
+        posterUrl = movieDetailsDto?.poster.toString()
+        genre = movieDetailsDto?.genre.toString()
+        plot = movieDetailsDto?.plot.toString()
         Picasso.get().load(posterUrl).into(binding.imageViewDetailPoster)
 
         initFields()

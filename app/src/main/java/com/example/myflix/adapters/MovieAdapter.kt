@@ -7,20 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.SearchedMovie
 import com.example.myflix.R
 import com.example.myflix.databinding.MovieInfoBinding
+import com.example.myflix.local.Movie
 import com.example.myflix.utils.DiffUtilCallback
 import com.example.myflix.utils.RecyclerViewClickListener
 import com.squareup.picasso.Picasso
 
 class MovieAdapter(clickListener: RecyclerViewClickListener): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
-    var movieInfoList: List<SearchedMovie> = mutableListOf()
+    var movieInfoList: List<Movie> = mutableListOf()
         set(value) {
             val diffUtilCallback = DiffUtilCallback(movieInfoList, value)
             val diff = DiffUtil.calculateDiff(diffUtilCallback)
-            (movieInfoList as MutableList<SearchedMovie>).clear()
-            (movieInfoList as MutableList<SearchedMovie>).addAll(value)
+            (movieInfoList as MutableList<Movie>).clear()
+            (movieInfoList as MutableList<Movie>).addAll(value)
             diff.dispatchUpdatesTo(this)
         }
 

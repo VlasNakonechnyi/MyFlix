@@ -1,38 +1,39 @@
 package com.example.myflix.service
 
 import android.util.Log
-import com.example.SearchedMovie
 import com.example.myflix.api.MovieApi
 import com.example.myflix.api.RetrofitClient
-import com.example.myflix.pojo.SearchedMovieDetails
+import com.example.myflix.dto.MovieDetailsDto
+import com.example.myflix.local.Movie
+import com.example.myflix.mapper.MovieMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import java.io.IOException
 interface MovieServiceCallback {
-    fun onMoviesLoaded(movies: List<SearchedMovie> = listOf(), searchedMovieDetails: SearchedMovieDetails? = null)
+    fun onMoviesLoaded(movies: List<Movie>? = listOf(), movieDetailsDto: MovieDetailsDto? = null)
 }
 class MovieService(private val callback: MovieServiceCallback) {
 
-    private var movies: List<SearchedMovie>? = null
-    private var movieDetails: SearchedMovieDetails? = null;
+    private var movies: List<Movie>? = null
+    private var movieDetails: MovieDetailsDto? = null
     private val retrofit = RetrofitClient.getClient()
     private val movieApi = retrofit.create(MovieApi::class.java)
 
 
     private suspend fun searchMovies(searchTitle: String) {
         try {
+
             val response = movieApi.getMoviesBySearch(searchTitle = searchTitle)
-            Log.d("API_RESPONSE", response.toString())
+            val moviesDto = response.body()
+                Log.d("API_RESPONSE", response.toString())
             if (response.isSuccessful) {
-                movies = response.body()?.search
+                movies = moviesDto?.let { MovieMapper.dtoToLocalResponse(it).movieList }
                 if (movies != null) {
 
-                    callback.onMoviesLoaded(movies = movies!!)
+                    callback.onMoviesLoaded(movies = movies)
                 } else {
                     callback.onMoviesLoaded(movies = listOf())
                 }
@@ -63,7 +64,7 @@ class MovieService(private val callback: MovieServiceCallback) {
             if (response.isSuccessful) {
                 movieDetails = response.body()
                 movieDetails?.let {
-                    callback.onMoviesLoaded(searchedMovieDetails = it)
+                    callback.onMoviesLoaded(movieDetailsDto = it)
 
                     Log.d("MOVIE_SERVICE_BY_ID", it.toString())
                 } ?: Log.d("MOVIE_SERVICE_BY_ID", "Response body is null")
@@ -82,14 +83,14 @@ class MovieService(private val callback: MovieServiceCallback) {
             Log.e("MOVIE_SERVICE_BY_ID", "IOException: ${e.message}")
         }
     }
-    fun loadRecyclerViewOfMovies(title: String) = runBlocking {
+    fun loadRecyclerViewOfMovies(title: String)  {
             CoroutineScope(Dispatchers.Main).launch {
                 println("[${Thread.currentThread().name}] One")
                 searchMovies(title)
             }
         println("[${Thread.currentThread().name}] Done!")
     }
-    fun loadMovieDetails(id: String) = runBlocking {
+    fun loadMovieDetails(id: String) {
 
            CoroutineScope(Dispatchers.Main).launch {
                 println("[${Thread.currentThread().name}] One")

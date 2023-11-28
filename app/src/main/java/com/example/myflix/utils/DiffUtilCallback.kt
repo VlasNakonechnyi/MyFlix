@@ -1,11 +1,11 @@
 package com.example.myflix.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.SearchedMovie
+import com.example.myflix.local.Movie
 
 class DiffUtilCallback(
-    private val oldList: List<SearchedMovie>,
-    private val newList: List<SearchedMovie>
+    private val oldList: List<Movie>,
+    private val newList: List<Movie>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 

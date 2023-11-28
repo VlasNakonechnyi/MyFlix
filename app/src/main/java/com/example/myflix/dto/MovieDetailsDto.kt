@@ -1,11 +1,11 @@
-package com.example.myflix.pojo
+package com.example.myflix.dto
 
 import android.media.Rating
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-data class SearchedMovieDetails (
+data class MovieDetailsDto (
     @SerializedName("Title")
     @Expose
     var title: String? = null,

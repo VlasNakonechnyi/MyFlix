@@ -1,9 +1,9 @@
-package com.example
+package com.example.myflix.dto
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class SearchedMovie (
+data class MovieDto (
     @SerializedName("Title")
     @Expose
     var title: String? = null,

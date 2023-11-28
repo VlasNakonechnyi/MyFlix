@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/aclonica"
-            android:text="MyFlix"
+            android:text="@string/myflix"
             android:textSize="34sp"
             tools:layout_editor_absoluteX="149dp"
             tools:layout_editor_absoluteY="150dp" />

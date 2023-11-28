@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.example.SearchedMovie
 import com.example.myflix.adapters.MovieAdapter
 import com.example.myflix.databinding.FragmentMoviesRecyclerViewBinding
-import com.example.myflix.pojo.SearchedMovieDetails
+import com.example.myflix.dto.MovieDetailsDto
+import com.example.myflix.local.Movie
 import com.example.myflix.service.MovieService
 import com.example.myflix.service.MovieServiceCallback
 import com.example.myflix.utils.RecyclerViewClickListener
@@ -48,11 +48,13 @@ class MoviesRecyclerViewFragment : Fragment(), MovieServiceCallback, RecyclerVie
     }
 
     // The callback function that provides the recycler view with the list of movies upon loading
-    override fun onMoviesLoaded(movies: List<SearchedMovie>, searchedMovieDetails: SearchedMovieDetails?) {
-        adapter.movieInfoList = movies
-        binding.progressBar.visibility = View.INVISIBLE
-        if (movies.isEmpty()) {
-            nothingFound()
+    override fun onMoviesLoaded(movies: List<Movie>?, movieDetailsDto: MovieDetailsDto?) {
+        movies?.let {
+            adapter.movieInfoList = movies
+            binding.progressBar.visibility = View.INVISIBLE
+            if (movies.isEmpty()) {
+                nothingFound()
+            }
         }
     }
 

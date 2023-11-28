@@ -1,12 +1,12 @@
-package com.example
+package com.example.myflix.dto
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class ListOfSearchedMovies (
+data class ResponseDto (
     @SerializedName("Search")
     @Expose
-    var search: List<SearchedMovie>? = null,
+    var search: List<MovieDto>? = null,
 
     @SerializedName("totalResults")
     @Expose
