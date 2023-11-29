@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.myflix.databinding.FragmentDetailsMovieInfoBinding
-import com.example.myflix.dto.MovieDetailsDto
 import com.example.myflix.local.Movie
+import com.example.myflix.local.MovieDetails
 import com.example.myflix.service.MovieService
 import com.example.myflix.service.MovieServiceCallback
 import com.squareup.picasso.Picasso
@@ -38,16 +38,16 @@ class DetailsMovieInfoFragment : Fragment(), MovieServiceCallback {
 
     override fun onMoviesLoaded(
         movies: List<Movie>?,
-        movieDetailsDto: MovieDetailsDto?
+        movieDetails: MovieDetails?
     ) {
         Log.d("SECOND_CALLBACK", "SUCCESS")
-        title = movieDetailsDto?.title.toString()
-        year = movieDetailsDto?.year.toString()
-        length = movieDetailsDto?.runtime.toString()
-        director = movieDetailsDto?.director.toString()
-        posterUrl = movieDetailsDto?.poster.toString()
-        genre = movieDetailsDto?.genre.toString()
-        plot = movieDetailsDto?.plot.toString()
+        title = movieDetails?.title.toString()
+        year = movieDetails?.year.toString()
+        length = movieDetails?.runtime.toString()
+        director = movieDetails?.director.toString()
+        posterUrl = movieDetails?.poster.toString()
+        genre = movieDetails?.genre.toString()
+        plot = movieDetails?.plot.toString()
         Picasso.get().load(posterUrl).into(binding.imageViewDetailPoster)
 
         initFields()
@@ -62,5 +62,7 @@ class DetailsMovieInfoFragment : Fragment(), MovieServiceCallback {
         binding.textView5.text = length
         binding.textViewDetailPlot.text = plot
     }
+
+
 
 }

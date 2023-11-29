@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myflix.R
 import com.example.myflix.databinding.MovieInfoBinding
 import com.example.myflix.local.Movie
 import com.example.myflix.utils.DiffUtilCallback
@@ -26,25 +25,24 @@ class MovieAdapter(clickListener: RecyclerViewClickListener): RecyclerView.Adapt
 
     val itemListener = clickListener
 
-    inner class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class MovieViewHolder(binding: MovieInfoBinding): RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         init {
             itemView.setOnClickListener(this)
         }
-        private val binding = MovieInfoBinding.bind(itemView)
         val imageViewMoviePoster = binding.imageViewMoviePoster
         val textViewTitle = binding.textViewMovieTitle
         val textViewYear = binding.textViewMovieYear
-        override fun onClick(v: View?) {
+        override fun onClick(v: View) {
             Log.d("ON_CLICK", "WORKED")
-            v?.let {
+            v.let {
                 itemListener.recyclerViewItemClicked(it, layoutPosition)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_info, parent, false)
-        return MovieViewHolder(view)
+        val binding = MovieInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MovieViewHolder(binding)
     }
 
     override fun getItemCount() = movieInfoList.size

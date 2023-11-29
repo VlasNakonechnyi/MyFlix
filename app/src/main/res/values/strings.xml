@@ -6,4 +6,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nothing_found">Nothing found :(</string>
     <string name="myflix">MyFlix</string>
+    <string name="year">Year:</string>
+    <string name="length">Length:</string>
+    <string name="genre">Genre:</string>
+    <string name="directed_by">Directed by:</string>
 </resources>

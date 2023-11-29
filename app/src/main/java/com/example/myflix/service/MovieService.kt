@@ -5,15 +5,16 @@ import com.example.myflix.api.MovieApi
 import com.example.myflix.api.RetrofitClient
 import com.example.myflix.dto.MovieDetailsDto
 import com.example.myflix.local.Movie
+import com.example.myflix.local.MovieDetails
 import com.example.myflix.mapper.MovieMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import java.io.IOException
+
 interface MovieServiceCallback {
-    fun onMoviesLoaded(movies: List<Movie>? = listOf(), movieDetailsDto: MovieDetailsDto? = null)
+    fun onMoviesLoaded(movies: List<Movie>? = listOf(), movieDetails: MovieDetails? = null)
 }
 class MovieService(private val callback: MovieServiceCallback) {
 
@@ -28,7 +29,7 @@ class MovieService(private val callback: MovieServiceCallback) {
 
             val response = movieApi.getMoviesBySearch(searchTitle = searchTitle)
             val moviesDto = response.body()
-                Log.d("API_RESPONSE", response.toString())
+            Log.d("API_RESPONSE", response.toString())
             if (response.isSuccessful) {
                 movies = moviesDto?.let { MovieMapper.dtoToLocalResponse(it).movieList }
                 if (movies != null) {
@@ -64,7 +65,7 @@ class MovieService(private val callback: MovieServiceCallback) {
             if (response.isSuccessful) {
                 movieDetails = response.body()
                 movieDetails?.let {
-                    callback.onMoviesLoaded(movieDetailsDto = it)
+                    callback.onMoviesLoaded(movieDetails = MovieMapper.dtoToLocalMovieDetails(it))
 
                     Log.d("MOVIE_SERVICE_BY_ID", it.toString())
                 } ?: Log.d("MOVIE_SERVICE_BY_ID", "Response body is null")

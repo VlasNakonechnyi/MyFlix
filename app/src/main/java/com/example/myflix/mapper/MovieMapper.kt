@@ -1,8 +1,10 @@
 package com.example.myflix.mapper
 
+import com.example.myflix.dto.MovieDetailsDto
 import com.example.myflix.dto.MovieDto
 import com.example.myflix.dto.ResponseDto
 import com.example.myflix.local.Movie
+import com.example.myflix.local.MovieDetails
 import com.example.myflix.local.MovieResponse
 
 object MovieMapper {
@@ -27,5 +29,17 @@ object MovieMapper {
         }
         return local
     }
-
+    fun dtoToLocalMovieDetails(dto: MovieDetailsDto): MovieDetails {
+        val local = MovieDetails()
+        with(local) {
+            title = dto.title
+            year = dto.year
+            genre = dto.genre
+            director = dto.director
+            runtime = dto.runtime
+            plot = dto.plot
+            poster = dto.poster
+        }
+        return local
+    }
 }

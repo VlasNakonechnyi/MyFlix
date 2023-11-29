@@ -50,7 +50,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/alfa_slab_one"
-            android:text="Year:"
+            android:text="@string/year"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDetailMovieTitle" />
 
@@ -71,7 +71,7 @@
             android:layout_marginStart="80dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/alfa_slab_one"
-            android:text="Length:"
+            android:text="@string/length"
             app:layout_constraintStart_toEndOf="@+id/textViewDetailYear"
             app:layout_constraintTop_toBottomOf="@+id/textViewDetailMovieTitle" />
 
@@ -92,7 +92,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/alfa_slab_one"
-            android:text="Genre:"
+            android:text="@string/genre"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -113,7 +113,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/alfa_slab_one"
-            android:text="Directed by:"
+            android:text="@string/directed_by"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
