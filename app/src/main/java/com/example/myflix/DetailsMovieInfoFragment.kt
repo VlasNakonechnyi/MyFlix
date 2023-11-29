@@ -9,8 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.myflix.databinding.FragmentDetailsMovieInfoBinding
 import com.example.myflix.local.Movie
 import com.example.myflix.local.MovieDetails
-import com.example.myflix.service.MovieService
-import com.example.myflix.service.MovieServiceCallback
+import com.example.myflix.viewmodel.MovieServiceCallback
 import com.squareup.picasso.Picasso
 
 class DetailsMovieInfoFragment : Fragment(), MovieServiceCallback {
@@ -30,8 +29,6 @@ class DetailsMovieInfoFragment : Fragment(), MovieServiceCallback {
         binding = FragmentDetailsMovieInfoBinding.inflate(inflater)
         binding.progressBar.visibility = View.VISIBLE
         binding.progressBar.animate()
-        val service = MovieService(this)
-        service.loadMovieDetails(arguments?.getString("id").toString())
 
         return binding.root
     }

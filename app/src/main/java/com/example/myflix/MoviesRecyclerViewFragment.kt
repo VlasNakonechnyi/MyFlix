@@ -5,21 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.example.myflix.adapters.MovieAdapter
 import com.example.myflix.databinding.FragmentMoviesRecyclerViewBinding
 import com.example.myflix.local.Movie
-import com.example.myflix.local.MovieDetails
-import com.example.myflix.service.MovieService
-import com.example.myflix.service.MovieServiceCallback
 import com.example.myflix.utils.RecyclerViewClickListener
+import com.example.myflix.viewmodel.MovieViewModel
 
-class MoviesRecyclerViewFragment : Fragment(), MovieServiceCallback, RecyclerViewClickListener {
+class MoviesRecyclerViewFragment : Fragment(), RecyclerViewClickListener {
 
     private lateinit var adapter: MovieAdapter
-    private lateinit var service: MovieService
     private lateinit var binding: FragmentMoviesRecyclerViewBinding
 
+    private val model: MovieViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,28 +35,18 @@ class MoviesRecyclerViewFragment : Fragment(), MovieServiceCallback, RecyclerVie
 
         // Created the adapter with the clickListener as an argument
         adapter = MovieAdapter(this)
-
         recyclerView.adapter = adapter
-        service = MovieService(this)
 
-
-        // using bundle with the nav graph to pass arguments from the search bar to this fragment
-        service.loadRecyclerViewOfMovies(arguments?.getString("editTextText").toString())
-
-
+        model.loadRecyclerViewOfMovies(arguments?.getString("title").toString())
+        val movieListObserver = Observer<List<Movie>> {
+            adapter.movieInfoList = it
+        }
+        model.currentList.observe(viewLifecycleOwner, movieListObserver)
         return binding.root
     }
 
     // The callback function that provides the recycler view with the list of movies upon loading
-    override fun onMoviesLoaded(movies: List<Movie>?, movieDetails: MovieDetails?) {
-        movies?.let {
-            adapter.movieInfoList = movies
-            binding.progressBar.visibility = View.INVISIBLE
-            if (movies.isEmpty()) {
-                nothingFound()
-            }
-        }
-    }
+
 
     private fun nothingFound() {
         binding.textViewNothingFound.visibility = View.VISIBLE

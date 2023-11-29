@@ -21,7 +21,7 @@ class MoviesFragment : Fragment() {
         binding.buttonSearch.setOnClickListener {
             Log.d("CLICK_EVENT", "Search button clicked")
             val bundle = Bundle()
-            bundle.putString("editTextText", binding.editTextMovieTitle.text.toString())
+            bundle.putString("title", binding.editTextMovieTitle.text.toString())
             Navigation.findNavController(it).navigate(R.id.action_moviesFragment3_to_moviesRecyclerViewFragment, bundle)
         }
         return binding.root
