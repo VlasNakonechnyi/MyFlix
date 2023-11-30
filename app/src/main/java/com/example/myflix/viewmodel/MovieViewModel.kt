@@ -30,7 +30,6 @@ class MovieViewModel: ViewModel(){
 
     }
     fun loadMovieDetails(id: String) {
-
            CoroutineScope(Dispatchers.Main).launch {
                with(movieRepository) {
                    getMovieDetailsById(id)
@@ -38,7 +37,6 @@ class MovieViewModel: ViewModel(){
                }
 
            }
-
     }
     private fun validateTitle(title: String): String {
         return title.trim().lowercase()
