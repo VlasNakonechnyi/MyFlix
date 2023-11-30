@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 
 class MovieViewModel: ViewModel(){
-
+    private val movieRepository= MovieRepository()
     val currentList: MutableLiveData<List<Movie>> by lazy {
         MutableLiveData<List<Movie>>()
     }
@@ -22,7 +22,7 @@ class MovieViewModel: ViewModel(){
     fun loadRecyclerViewOfMovies(title: String)  {
 
             CoroutineScope(Dispatchers.Main).launch {
-                with(MovieRepository) {
+                with(movieRepository) {
                     searchMovies(title)
                     currentList.value = MovieMapper.dtoListToLocal(movies)
                 }
@@ -32,7 +32,7 @@ class MovieViewModel: ViewModel(){
     fun loadMovieDetails(id: String) {
 
            CoroutineScope(Dispatchers.Main).launch {
-               with(MovieRepository) {
+               with(movieRepository) {
                    getMovieDetailsById(id)
                    currentMovieDetails.value = MovieMapper.dtoToLocalMovieDetails(movieDetails)
                }

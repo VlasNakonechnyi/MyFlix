@@ -7,7 +7,7 @@ import com.example.myflix.dto.MovieDetailsDto
 import com.example.myflix.dto.MovieDto
 
 
-object MovieRepository {
+class MovieRepository {
     var movies: List<MovieDto> = listOf()
     var movieDetails: MovieDetailsDto = MovieDetailsDto()
     private val retrofit = RetrofitClient.getClient()
