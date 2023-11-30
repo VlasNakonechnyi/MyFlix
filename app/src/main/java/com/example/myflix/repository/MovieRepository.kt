@@ -33,6 +33,8 @@ class MovieRepository {
         val movieDtoDetails = response.body()
         if (response.isSuccessful) {
             movieDtoDetails?.let {
+                Log.d("MOVIE_REPOSITORY", it.toString())
+
                 movieDetails = it
             }
         }

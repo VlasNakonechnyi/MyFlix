@@ -15,7 +15,6 @@ import com.example.myflix.utils.RecyclerViewClickListener
 import com.example.myflix.viewmodel.MovieViewModel
 
 class MoviesRecyclerViewFragment : Fragment(), RecyclerViewClickListener {
-
     private lateinit var adapter: MovieAdapter
     private lateinit var binding: FragmentMoviesRecyclerViewBinding
 
@@ -44,9 +43,6 @@ class MoviesRecyclerViewFragment : Fragment(), RecyclerViewClickListener {
         model.currentList.observe(viewLifecycleOwner, movieListObserver)
         return binding.root
     }
-
-    // The callback function that provides the recycler view with the list of movies upon loading
-
 
     private fun nothingFound() {
         binding.textViewNothingFound.visibility = View.VISIBLE

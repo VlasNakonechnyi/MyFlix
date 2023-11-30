@@ -23,7 +23,7 @@ class MovieViewModel: ViewModel(){
 
             CoroutineScope(Dispatchers.Main).launch {
                 with(movieRepository) {
-                    searchMovies(title)
+                    searchMovies(validateTitle(title))
                     currentList.value = MovieMapper.dtoListToLocal(movies)
                 }
             }
@@ -39,6 +39,9 @@ class MovieViewModel: ViewModel(){
 
            }
 
+    }
+    private fun validateTitle(title: String): String {
+        return title.trim().lowercase()
     }
 }
 
