@@ -44,9 +44,9 @@ class MoviesRecyclerViewFragment : Fragment(), RecyclerViewClickListener {
         return binding.root
     }
 
-    private fun nothingFound() {
-        binding.textViewNothingFound.visibility = View.VISIBLE
-    }
+//    private fun nothingFound() {
+//        binding.textViewNothingFound.visibility = View.VISIBLE
+//    }
 
     override fun recyclerViewItemClicked(v: View, pos: Int) {
         val id = adapter.movieInfoList[pos].imdbID

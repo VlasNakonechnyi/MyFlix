@@ -1,7 +1,6 @@
 package com.example.myflix
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.myflix.databinding.FragmentDetailsMovieInfoBinding
-import com.example.myflix.local.Movie
 import com.example.myflix.local.MovieDetails
 import com.example.myflix.viewmodel.MovieViewModel
 import com.squareup.picasso.Picasso
