@@ -2,10 +2,8 @@ package com.example.myflix.mapper
 
 import com.example.myflix.dto.MovieDetailsDto
 import com.example.myflix.dto.MovieDto
-import com.example.myflix.dto.ResponseDto
 import com.example.myflix.local.Movie
 import com.example.myflix.local.MovieDetails
-import com.example.myflix.local.MovieResponse
 
 object MovieMapper {
     private fun dtoToLocalMovie(dto: MovieDto): Movie {
@@ -17,12 +15,12 @@ object MovieMapper {
         local.year = dto.year
         return local
     }
-    fun dtoToLocalResponse(dto: ResponseDto): MovieResponse{
-        val local = MovieResponse()
-        local.movieList = dto.search?.let { dtoListToLocal(it) }
-        return local
-    }
-    private fun dtoListToLocal(dto: List<MovieDto>):List<Movie> {
+//    fun dtoToLocalResponse(dto: ResponseDto): MovieResponse{
+//        val local = MovieResponse()
+//        local.movieList = dto.search?.let { dtoListToLocal(it) }
+//        return local
+//    }
+    fun dtoListToLocal(dto: List<MovieDto>):List<Movie> {
         val local: List<Movie> = mutableListOf()
         for (el in dto) {
             (local as MutableList<Movie>).add(dtoToLocalMovie(el))
